@@ -1,0 +1,128 @@
+{
+  "service": {
+    "id": "md-llm-openai",
+    "adapter": "llm-openai",
+    "name": "OpenAI",
+    "description": "OpenAI's models through their API. Your files are sent to OpenAI (USA).",
+    "category": "generative",
+    "location": "external",
+    "access": "proprietary",
+    "external_tasks": "prompts",
+    "params_help": {
+      "temperature": {
+        "name": "Temperature",
+        "display": "textinput",
+        "default": 0.2,
+        "help": "How freely the model words its answer: 0 gives the most repeatable answers, 1 or more more varied ones. Empty uses the model's default."
+      },
+      "max_output_tokens": {
+        "name": "Max answer length (tokens)",
+        "display": "textinput",
+        "default": 2048,
+        "help": "Upper limit for the length of the answer, in tokens (about 3/4 of a word each). Your service group may set a lower limit."
+      }
+    },
+    "tasks": {
+      "autotag": {
+        "name": "Tag with AI",
+        "description": "Tags the text or image with categories you give or existing tags you pick, or lets the model suggest tags",
+        "behaviour": "one-to-one",
+        "autotag": true,
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "params": {
+          "labels": "",
+          "multi_label": true,
+          "max_tags": 5,
+          "instructions": ""
+        },
+        "params_help": {
+          "labels": {
+            "name": "Categories",
+            "display": "tagpicker",
+            "help": "Comma-separated categories to choose from, or pick existing tags (their descriptions help the model). Leave empty to let the model suggest tags."
+          },
+          "multi_label": {
+            "name": "Allow several tags",
+            "display": "checkbox",
+            "default": true,
+            "help": "Check this if a file can get more than one category."
+          },
+          "max_tags": {
+            "name": "Max suggested tags",
+            "display": "textinput",
+            "default": 5,
+            "help": "Only when no categories are given: how many tags the model may suggest."
+          },
+          "instructions": {
+            "name": "Extra guidance",
+            "display": "textinput",
+            "help": "Optional, e.g. 'tag the main topic only' or 'answer in Finnish'."
+          }
+        }
+      }
+    },
+    "models": {
+      "gpt-5": {
+        "name": "GPT-5",
+        "family": "gpt-5",
+        "description": "OpenAI's flagship reasoning model.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 270000,
+        "temperature": false
+      },
+      "gpt-5-mini": {
+        "name": "GPT-5 mini",
+        "family": "gpt-5-mini",
+        "description": "Cheaper and faster GPT-5.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 270000,
+        "temperature": false
+      }
+    },
+    "service_groups": [
+      "OPENAI"
+    ],
+    "source_url": "https://platform.openai.com/docs/models"
+  },
+  "provider": {
+    "name": "md-llm-openai",
+    "base_url": "https://api.openai.com/v1",
+    "api_key_env": "OPENAI_API_KEY",
+    "store": false,
+    "timeout_ms": 300000,
+    "retry": {
+      "max_attempts": 5,
+      "initial_delay_ms": 1000
+    }
+  },
+  "help": "../help/index.md"
+}

@@ -1,0 +1,132 @@
+{
+  "service": {
+    "id": "md-llm-azure",
+    "adapter": "llm-openai",
+    "name": "Azure OpenAI",
+    "description": "OpenAI's models in our own Azure OpenAI resource. Your files are sent to Microsoft Azure.",
+    "category": "generative",
+    "location": "external",
+    "access": "proprietary",
+    "external_tasks": "prompts",
+    "params_help": {
+      "temperature": {
+        "name": "Temperature",
+        "display": "textinput",
+        "default": 0.2,
+        "help": "How freely the model words its answer: 0 gives the most repeatable answers, 1 or more more varied ones. Empty uses the model's default."
+      },
+      "max_output_tokens": {
+        "name": "Max answer length (tokens)",
+        "display": "textinput",
+        "default": 2048,
+        "help": "Upper limit for the length of the answer, in tokens (about 3/4 of a word each). Your service group may set a lower limit."
+      }
+    },
+    "tasks": {
+      "autotag": {
+        "name": "Tag with AI",
+        "description": "Tags the text or image with categories you give or existing tags you pick, or lets the model suggest tags",
+        "behaviour": "one-to-one",
+        "autotag": true,
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "params": {
+          "labels": "",
+          "multi_label": true,
+          "max_tags": 5,
+          "instructions": ""
+        },
+        "params_help": {
+          "labels": {
+            "name": "Categories",
+            "display": "tagpicker",
+            "help": "Comma-separated categories to choose from, or pick existing tags (their descriptions help the model). Leave empty to let the model suggest tags."
+          },
+          "multi_label": {
+            "name": "Allow several tags",
+            "display": "checkbox",
+            "default": true,
+            "help": "Check this if a file can get more than one category."
+          },
+          "max_tags": {
+            "name": "Max suggested tags",
+            "display": "textinput",
+            "default": 5,
+            "help": "Only when no categories are given: how many tags the model may suggest."
+          },
+          "instructions": {
+            "name": "Extra guidance",
+            "display": "textinput",
+            "help": "Optional, e.g. 'tag the main topic only' or 'answer in Finnish'."
+          }
+        }
+      }
+    },
+    "models": {
+      "gpt-5.1": {
+        "name": "GPT-5.1",
+        "family": "gpt-5.1",
+        "description": "The latest GPT model deployed in our Azure tenant.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 270000,
+        "temperature": false
+      },
+      "gpt-4o": {
+        "name": "GPT-4o",
+        "family": "gpt-4o",
+        "description": "Fast general model; reads images.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 120000
+      }
+    },
+    "service_groups": [
+      "AZURE-AI"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/"
+  },
+  "provider": {
+    "name": "md-llm-azure",
+    "base_url": "https://YOUR-RESOURCE.openai.azure.com/openai/v1/",
+    "api_key_env": "AZURE_OPENAI_API_KEY",
+    "auth_header": "api-key",
+    "model_map": {
+      "gpt-5.1": "gpt-5.1",
+      "gpt-4o": "gpt-4o"
+    },
+    "store": false,
+    "timeout_ms": 300000,
+    "retry": {
+      "max_attempts": 5,
+      "initial_delay_ms": 1000
+    }
+  },
+  "help": "../help/index.md"
+}

@@ -1,0 +1,135 @@
+{
+  "service": {
+    "id": "md-llm-ollama",
+    "adapter": "llm-openai",
+    "name": "Ollama",
+    "description": "Open models run on our own server with Ollama. Nothing leaves the server.",
+    "category": "generative",
+    "location": "on-premise",
+    "access": "open source",
+    "external_tasks": "prompts",
+    "params_help": {
+      "temperature": {
+        "name": "Temperature",
+        "display": "textinput",
+        "default": 0.2,
+        "help": "How freely the model words its answer: 0 gives the most repeatable answers, 1 or more more varied ones. Empty uses the model's default."
+      },
+      "max_output_tokens": {
+        "name": "Max answer length (tokens)",
+        "display": "textinput",
+        "default": 2048,
+        "help": "Upper limit for the length of the answer, in tokens (about 3/4 of a word each). Your service group may set a lower limit."
+      }
+    },
+    "tasks": {
+      "autotag": {
+        "name": "Tag with AI",
+        "description": "Tags the text or image with categories you give or existing tags you pick, or lets the model suggest tags",
+        "behaviour": "one-to-one",
+        "autotag": true,
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "params": {
+          "labels": "",
+          "multi_label": true,
+          "max_tags": 5,
+          "instructions": ""
+        },
+        "params_help": {
+          "labels": {
+            "name": "Categories",
+            "display": "tagpicker",
+            "help": "Comma-separated categories to choose from, or pick existing tags (their descriptions help the model). Leave empty to let the model suggest tags."
+          },
+          "multi_label": {
+            "name": "Allow several tags",
+            "display": "checkbox",
+            "default": true,
+            "help": "Check this if a file can get more than one category."
+          },
+          "max_tags": {
+            "name": "Max suggested tags",
+            "display": "textinput",
+            "default": 5,
+            "help": "Only when no categories are given: how many tags the model may suggest."
+          },
+          "instructions": {
+            "name": "Extra guidance",
+            "display": "textinput",
+            "help": "Optional, e.g. 'tag the main topic only' or 'answer in Finnish'."
+          }
+        }
+      }
+    },
+    "models": {
+      "gemma3:4b": {
+        "name": "Gemma 3 4B",
+        "family": "gemma-3-4b",
+        "description": "Small Google model that reads text and images. Fast; good for short summaries and image descriptions.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 7000
+      },
+      "gemma3:12b": {
+        "name": "Gemma 3 12B",
+        "family": "gemma-3-12b",
+        "description": "Larger Gemma 3: better answers, slower.",
+        "output": "text",
+        "supported_types": [
+          "text",
+          "image"
+        ],
+        "supported_formats": [
+          "txt",
+          "jpg",
+          "jpeg",
+          "png",
+          "tif",
+          "tiff",
+          "webp"
+        ],
+        "max_input_tokens": 7000
+      },
+      "gpt-oss:20b": {
+        "name": "gpt-oss 20B",
+        "family": "gpt-oss-20b",
+        "description": "OpenAI's open-weight reasoning model. Text only.",
+        "output": "text",
+        "supported_types": [
+          "text"
+        ],
+        "supported_formats": [
+          "txt"
+        ],
+        "max_input_tokens": 7000
+      }
+    },
+    "source_url": "https://ollama.com"
+  },
+  "provider": {
+    "name": "md-llm-ollama",
+    "base_url": "http://localhost:11434/v1",
+    "max_tokens_param": "max_tokens",
+    "timeout_ms": 300000,
+    "retry": {
+      "max_attempts": 3,
+      "initial_delay_ms": 2000
+    }
+  },
+  "help": "../help/index.md"
+}
